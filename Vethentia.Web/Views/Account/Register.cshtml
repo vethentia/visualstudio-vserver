@@ -1,0 +1,96 @@
+﻿@using System.Globalization
+@model Vethentia.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "reg-page" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="reg-header">
+                <h2>Register a new account</h2>
+                <p>
+                    Already Signed Up? Click <a href="/Account/Login" class="color-green">Sign In</a> to login your account.
+                </p>
+            </div>
+
+            @Html.LabelFor(m => m.FirstName)
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control margin-bottom-20" })
+
+
+            @Html.LabelFor(m => m.LastName)
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control margin-bottom-20" })
+
+
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control margin-bottom-20" })
+
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control margin-bottom-20" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control margin-bottom-20" })
+                </div>
+            </div>
+
+            @*<label>Date of birth</label>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.DropDownListFor(m => m.BirthMonth, Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i) }), "Select Month", new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(m => m.BirthDay, Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Select Day", new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(m => m.BirthYear, Enumerable.Range(1910, DateTime.Now.Year - 1909).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Select Year", new { @class = "form-control" })
+                </div>
+            </div>*@
+            <hr>
+            <label>Cell phone</label>
+            <div class="row">
+                @*<div class="col-md-4">
+                 
+                    @Html.EnumDropDownListFor(m => Model.PhoneNumberCountryCode, new { @class = "form-control margin-bottom-20" })
+                </div>*@
+                <div class="col-sm-6-telephone">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control margin-bottom-20" })
+                </div>
+
+            </div>
+            <hr>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            @Html.LabelFor(m => m.StreetAddress)
+            @Html.TextBoxFor(m => m.StreetAddress, new { @class = "form-control margin-bottom-20" })
+
+            @Html.LabelFor(m => m.PostCode)
+            @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control margin-bottom-20" })
+
+            <br />
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>
+                        <input type="checkbox" name="TermsAndConditions" value="true">    I read <a href="/Account/TermsOfService" target="_blank" class="color-green">Terms and Conditions</a>
+                    </label>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <button class="btn-u" type="submit">Register</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Css {
+    <link rel="stylesheet" href="/assets/css/pages/page_log_reg_v1.css">
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

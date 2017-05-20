@@ -1,0 +1,247 @@
+﻿@{
+    var action = this.ViewContext.RouteData.Values["action"].ToString().ToLower();
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title | VRAYINC.COM</title>
+    <!-- Meta -->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- Web Fonts -->
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- CSS Header and Footer -->
+    <link rel="stylesheet" href="/assets/css/headers/header-default.css">
+    <link rel="stylesheet" href="/assets/css/footers/footer-v1.css">
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="/assets/plugins/animate.css">
+    <link rel="stylesheet" href="/assets/plugins/line-icons/line-icons.css">
+    <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fancybox/source/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/plugins/owl-carousel/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="/assets/plugins/revolution-slider/rs-plugin/css/settings.css" type="text/css" media="screen">
+    <!--[if lt IE 9]><link rel="stylesheet" href="assets/plugins/revolution-slider/rs-plugin/css/settings-ie8.css" type="text/css" media="screen"><![endif]-->
+    <!-- CSS Theme -->
+    <link rel="stylesheet" href="/assets/css/theme-colors/default.css" id="style_color">
+    <link rel="stylesheet" href="/assets/css/theme-skins/dark.css">
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+   
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <div class="wrapper">
+        <!--=== Header ===-->
+        <div class="header">
+            <div class="container">
+                <!-- Logo -->
+                <a class="logo" href="/Home">
+                    <img src="/assets/img/logovray.png" alt="Logo">
+                </a>
+                <!-- End Logo -->
+                <!-- Topbar -->
+                <div class="topbar">
+                    @if (Request.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <ul class="loginbar pull-right">
+                                <li><a href="/profile/">@this.User.Identity.Name</a></li>
+                                <li class="topbar-devider"></li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></li>
+                            </ul>
+                        }
+                    }
+                    else
+                    {
+                        <ul class="loginbar pull-right">
+                            <li><a href="/Account/Register">Sign up</a></li>
+                            <li class="topbar-devider"></li>
+                            <li><a href="/Account/Login">Sign in</a></li>
+                        </ul>
+                    }
+                </div>
+                <!-- End Topbar -->
+                <!-- Toggle get grouped for better mobile display -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="fa fa-bars"></span>
+                </button>
+                <!-- End Toggle -->
+            </div><!--/end container-->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse mega-menu navbar-responsive-collapse">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                        <li class="@(controller == "home" ? "active" : "")">
+                            <a href="~/Home">
+                                Home
+                            </a>
+                        </li>
+                        <li class="@(controller == "what" ? "active" : "")">
+                            <a href="~/Home">
+                                What We Do
+                            </a>
+                        </li>
+                        <li class="@(controller == "about" ? "active" : "")">
+                            <a href="~/Home">
+                               About Us
+                            </a>
+                        </li>
+                        <li class="@(controller == "Serivices" ? "active" : "")">
+                            <a href="~/Home">
+                                Services
+                            </a>
+                        </li>
+                        <li class="@(controller == "Contact" ? "active" : "")">
+                            <a href="~/Home">
+                               Contact
+                            </a>
+                        </li>
+                       
+                        @*<li class="@(controller == "profile" ? "active" : "")">
+                            <a href="~/Profile">
+                                Profile
+                            </a>
+                        </li>*@
+                       
+                     </ul>
+                    </div><!--/end container-->
+                </div><!--/navbar-collapse-->
+            </div>
+            <!--=== End Header ===-->
+        <!--=== Slider ===-->
+       
+        <!--=== End Slider ===-->
+            <!--=== Content ===-->
+            @RenderBody()
+            <!--=== End Content ===-->
+            <div id="footer-default" class="footer-default">
+                <div class="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 md-margin-bottom-40">
+                                <!-- About -->
+                                <div class="headline"><h2>About</h2></div>
+                                <p class="margin-bottom-25 md-margin-bottom-40">
+                                    We were inspired by the simple idea that online shopping should be a simple and secure experience. As avid everyday consumers, we should be rewarded with an enjoyable shopping experience, void of worry that our credit card and personal information might someday fall into the wrong hands.
+                                </p>
+                                <!-- End About -->
+                            </div><!--/col-md-4-->
+
+                            <div class="col-md-4 md-margin-bottom-40">
+                                <!-- Link List -->
+                                <div class="posts">
+                                    <div class="headline"><h2>Useful Links</h2></div>
+                                    <ul class="list-unstyled link-list">
+                                        <li>@Html.ActionLink("FAQs", "Faq", "Home")<i class="fa fa-angle-right"></i></li>
+                                        <li>@Html.ActionLink("Profile", "Index", "Profile")<i class="fa fa-angle-right"></i></li>
+                                        @if (this.User.IsInRole("Admin"))
+                                        {
+                                            <li>@Html.ActionLink("Administration", "VerifyUser", "Admin")<i class="fa fa-angle-right"></i></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <!-- End Link List -->
+                            </div><!--/col-md-4-->
+                            <div class="col-md-4">
+                                <!-- Contact Us -->
+                                <div class="headline"><h2>Contact Us</h2></div>
+                                <address class="md-margin-bottom-40">
+                                    San Diego, CA, USA<br />
+                                    <i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:support@asiaroom.com">jshauh@vrayinc.com</a><br />
+                                    <i class="fa fa-globe"></i>&nbsp;&nbsp;<a href="http://www.vrayinc.com">http://www.vrayinc.com</a>
+                                </address>
+                                <!-- End Contact Us -->
+                                <!-- Social Links -->
+                                <div class="headline"><h2>Stay Connected</h2></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                <ul class="social-icons">
+                                    <li><a href="https://www.facebook.com/asiaroombooking" data-original-title="Facebook" class="social_facebook"></a></li>
+                                    <li><a href="https://twitter.com/asiaroom_com" data-original-title="Twitter" class="social_twitter"></a></li>
+                                    <li><a href="https://plus.google.com/109112132220747757141/" data-original-title="Goole Plus" class="social_googleplus"></a></li>
+                                    <li><a href="https://www.linkedin.com/company/asiaroom-llc" data-original-title="Linkedin" class="social_linkedin"></a></li>
+                                    @*<li><a href="#" data-original-title="Pinterest" class="social_pintrest"></a></li>
+                                        <li><a href="#" data-original-title="Vimeo" class="social_vimeo"></a></li>*@
+                                    @*<li><a href="#" data-original-title="Feed" class="social_rss"></a></li>*@
+                                </ul>
+                                    </div>
+                                </div>
+                                <!-- End Social Links -->
+                            </div><!--/col-md-4-->
+                        </div>
+                    </div>
+                </div><!--/footer-->
+                <div class="copyright">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    &copy; @DateTime.Now.Year - VRAY Inc.&nbsp;&nbsp;&nbsp;All Rights Reserved.
+                                    @Html.ActionLink("Privacy Policy", "PrivacyPolicy", "Account", new { target = "_blank" }) | @Html.ActionLink("Terms of Service", "TermsOfService", "Account", new { target = "_blank" })
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/copyright-->
+            </div>
+            <!--=== End Footer ===-->
+        </div>
+    <!--=== End Style Switcher ===-->
+    <!-- JS Global Compulsory -->
+    <script type="text/javascript" src="/assets/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery/jquery-migrate.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- JS Implementing Plugins -->
+    <script type="text/javascript" src="/assets/plugins/back-to-top.js"></script>
+    <script type="text/javascript" src="/assets/plugins/smoothScroll.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery.parallax.js"></script>
+    <script type="text/javascript" src="/assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="/assets/plugins/owl-carousel/owl-carousel/owl.carousel.js"></script>
+    <script type="text/javascript" src="/assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+    <!-- JS Customization -->
+    <script type="text/javascript" src="/assets/js/custom.js"></script>
+    <!-- JS Page Level -->
+    <script type="text/javascript" src="/assets/js/app.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/fancy-box.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/owl-carousel.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/revolution-slider.js"></script>
+    <script type="text/javascript" src="/assets/js/plugins/style-switcher.js"></script>
+    <script type="text/javascript">
+		jQuery(document).ready(function() {
+			App.init();
+			App.initParallaxBg();
+			FancyBox.initFancybox();
+			OwlCarousel.initOwlCarousel();
+			StyleSwitcher.initStyleSwitcher();
+			RevolutionSlider.initRSfullWidth();
+		});
+    </script>
+
+
+        @RenderSection("scripts", required: false)
+        <!--[if lt IE 9]>
+            <script src="/assets/plugins/respond.js"></script>
+            <script src="/assets/plugins/html5shiv.js"></script>
+            <script src="/assets/plugins/placeholder-IE-fixes.js"></script>
+            <![endif]-->
+    </body>
+</html>
