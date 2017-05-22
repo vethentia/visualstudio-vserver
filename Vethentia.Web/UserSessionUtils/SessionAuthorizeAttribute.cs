@@ -13,13 +13,13 @@
     {
         //       protected KeysmeData Data { get; private set; }
 
-        //private readonly IRepository<UserSession> Data;
+        private readonly IRepository<UserSession> Data;
 
 
-        //public SessionAuthorizeAttribute(IRepository<UserSession> session)
-        //{
-        //    this.Data = session;
-        //}
+        public SessionAuthorizeAttribute(IRepository<UserSession> session)
+        {
+            this.Data = session;
+        }
 
         public SessionAuthorizeAttribute()
         {
