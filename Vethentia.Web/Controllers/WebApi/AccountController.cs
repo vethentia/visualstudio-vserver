@@ -95,11 +95,8 @@
                             jsSerializer.Deserialize<Dictionary<string, string>>(responseString);
                         var authToken = responseData["access_token"];
                         var userName = responseData["userName"];
-                        //var userSessionManager = new UserSessionManager();
-                        //userSessionManager.CreateUserSession(userName, authToken);
 
-                        // Cleanup: delete expired sessions from the database
-                        //userSessionManager.DeleteExpiredSessions();
+                        // Save bearer token to the database
                         userSessionService.CreateUserSession(userName, authToken);
                         // Cleanup: delete expired sessions from the database
                         userSessionService.DeleteExpiredSessions();
@@ -119,7 +116,13 @@
             }
         }
 
-        // POST http://www.keys.me/api/account/logout
+        // POST http://vethentia.azurewebsites.net/api/accounts/logout
+        /// <summary>
+        /// Need to set Bearer token before calling Logout
+        /// In the HTTP Header, needs to set
+        /// Authorization   bearer [....token.....]
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [SessionAuthorize]
         [Route("logout")]
@@ -130,10 +133,9 @@
             this.Authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
 
             // Delete the user's session from the database (revoke its bearer token)
-            var userSessionManager = new UserSessionManager();
-            userSessionManager.InvalidateUserSession();
+            userSessionService.InvalidateUserSession();
 
-            return this.Ok(new { message = "Logout successful." });
+            return this.Ok(new { status = true, message = "Logout successful." });
         }
 
 

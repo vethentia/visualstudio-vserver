@@ -11,6 +11,8 @@
     using Data;
 
     using Services.Interfaces;
+    using UserSessionUtils;
+
     public static class AutofacConfig
     {
         public static void Register()
@@ -29,7 +31,9 @@
             // OPTIONAL: Enable property injection in view pages.
             builder.RegisterSource(new ViewRegistrationSource());
 
+            //////////////////////////////////////////////////////////
             // OPTIONAL: Enable property injection into action filters.
+            //////////////////////////////////////////////////////////
             builder.RegisterFilterProvider();
 
             var container = builder.Build();
@@ -47,8 +51,8 @@
             var servicesAssembly = Assembly.GetAssembly(typeof(IUserService));
             builder.RegisterAssemblyTypes(servicesAssembly).AsImplementedInterfaces();
 
-            var sessionServicesAssembly = Assembly.GetAssembly(typeof(IUserSessionService));
-            builder.RegisterAssemblyTypes(sessionServicesAssembly).AsImplementedInterfaces();
+            //var sessionServicesAssembly = Assembly.GetAssembly(typeof(IUserSessionService));
+            //builder.RegisterAssemblyTypes(sessionServicesAssembly).AsImplementedInterfaces();
 
         }
     }

@@ -12,7 +12,7 @@
     {
         //       protected KeysmeData Data { get; private set; }
 
-        public IUserSessionService userSessionService { get; set; }
+        //public IUserSessionService userSessionService { get; set; }
 
 
         //public SessionAuthorizeAttribute(IRepository<UserSession> session)
@@ -45,11 +45,6 @@
         }
         */
 
-        //public SessionAuthorizeAttribute(IUserSessionService sessionSvc)
-        //{
-        //    this.userSessionService = sessionSvc;
-        //}
-
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -58,14 +53,22 @@
                 return;
             }
 
-            if (userSessionService.ReValidateSession())
+            // Get the request lifetime scope so you can resolve services.
+            var requestScope = actionContext.Request.GetDependencyScope();
+
+            // Resolve the service you want to use.
+            var sessionService = requestScope.GetService(typeof(IUserSessionService)) as IUserSessionService;
+            if (sessionService != null)
             {
-                base.OnAuthorization(actionContext);
-            }
-            else
-            {
-                actionContext.Response = actionContext.ControllerContext.Request.CreateErrorResponse(
-                    HttpStatusCode.Unauthorized, "Session token expried or not valid.");
+                if (sessionService.ReValidateSession())
+                {
+                    base.OnAuthorization(actionContext);
+                }
+                else
+                {
+                    actionContext.Response = actionContext.ControllerContext.Request.CreateErrorResponse(
+                        HttpStatusCode.Unauthorized, "Session token expired or not valid.");
+                }
             }
         }
 
