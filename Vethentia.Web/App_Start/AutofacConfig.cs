@@ -47,6 +47,9 @@
             var servicesAssembly = Assembly.GetAssembly(typeof(IUserService));
             builder.RegisterAssemblyTypes(servicesAssembly).AsImplementedInterfaces();
 
+            var sessionServicesAssembly = Assembly.GetAssembly(typeof(IUserSessionService));
+            builder.RegisterAssemblyTypes(sessionServicesAssembly).AsImplementedInterfaces();
+
         }
     }
 }

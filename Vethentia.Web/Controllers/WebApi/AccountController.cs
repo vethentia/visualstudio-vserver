@@ -30,14 +30,16 @@
         private readonly IUserService userService;
         private readonly IMerchantService merchantService;
         private readonly INotificationService notificationService;
+        private readonly IUserSessionService userSessionService;
 
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AccountsController(IUserService userService, IMerchantService merchantService, INotificationService notificationSvc)
+        public AccountsController(IUserService userService, IMerchantService merchantService, INotificationService notificationSvc, IUserSessionService usrSession)
         {
             this.userService = userService;
             this.merchantService = merchantService;
             this.notificationService = notificationSvc;
+            this.userSessionService = usrSession;
         }
 
         /// <summary>
@@ -93,11 +95,14 @@
                             jsSerializer.Deserialize<Dictionary<string, string>>(responseString);
                         var authToken = responseData["access_token"];
                         var userName = responseData["userName"];
-                        var userSessionManager = new UserSessionManager();
-                        userSessionManager.CreateUserSession(userName, authToken);
+                        //var userSessionManager = new UserSessionManager();
+                        //userSessionManager.CreateUserSession(userName, authToken);
 
                         // Cleanup: delete expired sessions from the database
-                        userSessionManager.DeleteExpiredSessions();
+                        //userSessionManager.DeleteExpiredSessions();
+                        userSessionService.CreateUserSession(userName, authToken);
+                        // Cleanup: delete expired sessions from the database
+                        userSessionService.DeleteExpiredSessions();
 
                         return Json(new { status = true, token = authToken });
                     }
@@ -115,6 +120,7 @@
         }
 
         // POST http://www.keys.me/api/account/logout
+        [HttpPost]
         [SessionAuthorize]
         [Route("logout")]
         public IHttpActionResult Logout()

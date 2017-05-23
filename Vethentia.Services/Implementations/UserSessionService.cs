@@ -1,5 +1,5 @@
 ﻿
-namespace Vethentia.Web.UserSessionUtils
+namespace Vethentia.Services.Implementations
 {
     using System;
     using System.Net.Http;
@@ -9,55 +9,24 @@ namespace Vethentia.Web.UserSessionUtils
     using Microsoft.AspNet.Identity;
     using Data;
     using Data.Models;
+    using Interfaces;
 
-    public class UserSessionManager
+    public class UserSessionService : IUserSessionService
     {
         //protected KeysmeData Data { get; private set; }
         public IRepository<UserSession> Session { get; set; }
         public IRepository<User> User { get; set; }
 
-        //public UserSessionManager(IRepository<UserSession> session, IRepository<User> usr)
-        //{
-        //    this.Session = session;
-        //    this.User = usr;
-        //}
+        public UserSessionService(IRepository<UserSession> session, IRepository<User> usr)
+        {
+            this.Session = session;
+            this.User = usr;
+        }
 
         //public UserSessionManager()
         //{
 
         //}
-
-        private HttpRequestMessage CurrentRequest
-        {
-            get
-            {
-                return (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
-            }
-        }
-
-        /// <returns>The current bearer authorization token from the HTTP headers</returns>
-        private string GetCurrentBearerAuthrorizationToken()
-        {
-            string authToken = null;
-            if (CurrentRequest.Headers.Authorization != null)
-            {
-                if (CurrentRequest.Headers.Authorization.Scheme.ToLower() == "bearer")
-                {
-                    authToken = CurrentRequest.Headers.Authorization.Parameter;
-                }
-            }
-            return authToken;
-        }
-
-        private string GetCurrentUserId()
-        {
-            if (HttpContext.Current.User == null)
-            {
-                return null;
-            }
-            string userId = HttpContext.Current.User.Identity.GetUserId();
-            return userId;
-        }
 
         /// <summary>
         /// Extends the validity period of the current user's session in the database.
@@ -140,5 +109,43 @@ namespace Vethentia.Web.UserSessionUtils
 
             this.Session.SaveChanges();
         }
+
+
+        #region Private Methods
+        private HttpRequestMessage CurrentRequest
+        {
+            get
+            {
+                return (HttpRequestMessage)HttpContext.Current.Items["MS_HttpRequestMessage"];
+            }
+        }
+
+        /// <returns>The current bearer authorization token from the HTTP headers</returns>
+        private string GetCurrentBearerAuthrorizationToken()
+        {
+            string authToken = null;
+            if (CurrentRequest.Headers.Authorization != null)
+            {
+                if (CurrentRequest.Headers.Authorization.Scheme.ToLower() == "bearer")
+                {
+                    authToken = CurrentRequest.Headers.Authorization.Parameter;
+                }
+            }
+            return authToken;
+        }
+
+        private string GetCurrentUserId()
+        {
+            if (HttpContext.Current.User == null)
+            {
+                return null;
+            }
+            string userId = HttpContext.Current.User.Identity.GetUserId();
+            return userId;
+        }
+
+
+
+        #endregion
     }
 }

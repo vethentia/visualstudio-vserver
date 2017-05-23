@@ -157,10 +157,12 @@
     <Compile Include="Implementations\NotificationService.cs" />
     <Compile Include="Implementations\PaymentService.cs" />
     <Compile Include="Implementations\UserService.cs" />
+    <Compile Include="Implementations\UserSessionService.cs" />
     <Compile Include="Interfaces\IMerchantService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\IUserSessionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
