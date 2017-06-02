@@ -12,3 +12,36 @@ DEBUG 2017-04-23 13:25:28,226 336196ms NotificationService    MoveNext          
 DEBUG 2017-04-23 13:26:06,529 374499ms PaymentController      TestNotification   - TestNotification tokenReqModel: {"msgId":7,"deviceID":"935eeb29f3041d5322ca36d1f556642b4d25c4dd98762e2901c856eed5105c83","tid":1492961141600,"gatewayId":0,"amount":"100.99","countryCode":"US","currencyCode":"usd","ttime":"Sun Apr 23 2017 08:25:41 GMT-0700 (PDT)","vid":"htbanh@yahoo.com","shippingInfo":"123 abc street, 92121","supportedNetwork":7,"merchantIdentifier":"merchant.com.vethentia","merchantCapabilities":1,"merchantName":"merchant.com.vethentia","lineItems":"1 item;2 item;3 item","paymentMethodTokenizationType":"NETWORK_TOKEN","publicKey":null}
 DEBUG 2017-04-23 13:26:38,097 406067ms NotificationService    MoveNext           - APNS TokenRequest SerializeModel: {"msgId":7,"deviceID":"935eeb29f3041d5322ca36d1f556642b4d25c4dd98762e2901c856eed5105c83","tid":1492961141600,"gatewayId":0,"amount":"100.99","countryCode":"US","currencyCode":"usd","ttime":"Sun Apr 23 2017 08:25:41 GMT-0700 (PDT)","vid":"htbanh@yahoo.com","shippingInfo":"123 abc street, 92121","supportedNetwork":7,"merchantIdentifier":"merchant.com.vethentia","merchantCapabilities":1,"merchantName":"merchant.com.vethentia","lineItems":"1 item;2 item;3 item","paymentMethodTokenizationType":"NETWORK_TOKEN","publicKey":null}
 DEBUG 2017-04-23 13:26:50,584 418554ms NotificationService    MoveNext           - APNS TokenRequest Alert: {"aps":{"alert":"vid: htbanh@yahoo.com, tid 1492961141600, merchant merchant.com.vethentia", "sound":"default"},"msgId":7,"deviceID":"935eeb29f3041d5322ca36d1f556642b4d25c4dd98762e2901c856eed5105c83","tid":1492961141600,"gatewayId":0,"amount":"100.99","countryCode":"US","currencyCode":"usd","ttime":"Sun Apr 23 2017 08:25:41 GMT-0700 (PDT)","vid":"htbanh@yahoo.com","shippingInfo":"123 abc street, 92121","supportedNetwork":7,"merchantIdentifier":"merchant.com.vethentia","merchantCapabilities":1,"merchantName":"merchant.com.vethentia","lineItems":"1 item;2 item;3 item","paymentMethodTokenizationType":"NETWORK_TOKEN","publicKey":null}
+DEBUG 2017-06-01 20:01:53,358  9602ms AccountsController     MoveNext           - Register model: {"msgId":15,"phoneNumber":"+17173683207","firstName":"John","lastName":"Doe","emailAddress":"htbanh@hotmail.com","billingZipCode":"21075","billingStreetNumber":"1234","password":"Mypassword01!"}
+ERROR 2017-06-01 20:03:12,327 88571ms AccountsController     MoveNext           - Register
+System.InvalidOperationException: UserId not found.
+   at Microsoft.AspNet.Identity.UserManager`2.<GetSecurityStampAsync>d__42.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNet.Identity.TaskExtensions.CultureAwaiter`1.GetResult()
+   at Microsoft.AspNet.Identity.ClaimsIdentityFactory`2.<CreateAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Vethentia.Data.Models.User.<GenerateUserIdentityAsync>d__53.MoveNext() in C:\Github\Vethentia\visualstudio-vserver\Vethentia.Data.Models\User.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNet.Identity.Owin.SignInManager`2.<SignInAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Vethentia.Web.Controllers.WebApi.AccountsController.<Register>d__11.MoveNext() in C:\Github\Vethentia\visualstudio-vserver\Vethentia.Web\Controllers\WebApi\AccountController.cs:line 255
+DEBUG 2017-06-01 20:19:28,915  9806ms AccountsController     MoveNext           - Register model: {"msgId":15,"phoneNumber":"+17173683207","firstName":"John","lastName":"Doe","emailAddress":"htbanh@hotmail.com","billingZipCode":"21075","billingStreetNumber":"1234","password":"Mypassword01!"}
+ERROR 2017-06-01 20:21:11,193 112083ms AccountsController     MoveNext           - Register
+System.InvalidOperationException: UserId not found.
+   at Microsoft.AspNet.Identity.UserManager`2.<GenerateUserTokenAsync>d__fe.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Vethentia.Web.Controllers.WebApi.AccountsController.<Register>d__11.MoveNext() in C:\Github\Vethentia\visualstudio-vserver\Vethentia.Web\Controllers\WebApi\AccountController.cs:line 269
+DEBUG 2017-06-01 20:25:49,171 162933ms AccountsController     MoveNext           - Register model: {"msgId":15,"phoneNumber":"+17173683207","firstName":"John","lastName":"Doe","emailAddress":"htbanh@hotmail.com","billingZipCode":"21075","billingStreetNumber":"1234","password":"Mypassword01!"}

@@ -230,46 +230,68 @@
                 PhoneNumberCode = phoneCode
             };
 
-            bool val = userService.IsPhoneNumberRegistered(model.phoneNumber);
-            if (val)
-            {
-                ModelState.AddModelError("", string.Format("{0} is already registered.", model.phoneNumber));
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                string userId = string.Empty;
 
-                IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, model.password);
-
-                if (!addUserResult.Succeeded)
+                User userCheck = userService.GetUserByEmail(model.emailAddress);
+                if (userCheck == null || (userCheck != null && (!userCheck.EmailConfirmed || !userCheck.PhoneNumberConfirmed)))
                 {
-                    return GetErrorResult(addUserResult);
+                    if (userCheck == null)
+                    {
+                        bool val = userService.IsPhoneNumberRegistered(model.phoneNumber);
+                        if (val)
+                        {
+                            ModelState.AddModelError("", string.Format("{0} is already registered.", model.phoneNumber));
+                            return BadRequest(ModelState);
+                        }
+
+                        IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, model.password);
+                        if (!addUserResult.Succeeded)
+                        {
+                            return GetErrorResult(addUserResult);
+                        }
+                        await AppSignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        userId = user.Id;
+                    }
+                    else
+                    {
+                        userCheck.FirstName = model.firstName;
+                        userCheck.LastName = model.lastName;
+                        userCheck.PhoneNumber = model.phoneNumber;
+                        userCheck.StreetAddress = model.billingStreetNumber;
+                        userCheck.PostalCode = model.billingZipCode;
+                        userCheck.PhoneNumberCode = phoneCode;
+                        userService.Update(userCheck.Id, userCheck);
+                        userId = userCheck.Id;
+                    }
+
+                    string name = user.FirstName + " " + user.LastName;
+                    string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(userId);
+                    code = HttpUtility.UrlEncode(code);
+
+                    string uri = HttpContext.Current.Request.Url.AbsoluteUri;
+                    string host = uri.Substring(0, uri.IndexOf(HttpContext.Current.Request.Url.AbsolutePath));
+                    var callbackUrl = string.Format("{0}/Account/ConfirmEmail?userId={1}&code={2}", host, user.Id, code);
+
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account",   new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                    string body = "Hello " + name + ",";
+                    body += "<br /><br />Please click the following link to activate your account";
+                    body += "<br /><a href = '" + callbackUrl + "'>Click here to activate your account.</a>";
+                    body += "<br /><br />Thanks";
+
+                    // Send Email out
+                    await AppUserManager.SendEmailAsync(userId, "Confirm your account", body);
+
+                    // Send SMS to phone
+                    await this.AppUserManager.SendSmsAsync(userId, "Vethentia Phone code is " + phoneCode);
                 }
-
-                await AppSignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                string name = user.FirstName + " " + user.LastName;
-
-                string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                code = HttpUtility.UrlEncode(code);
-
-                string uri = HttpContext.Current.Request.Url.AbsoluteUri;
-                string host = uri.Substring(0, uri.IndexOf(HttpContext.Current.Request.Url.AbsolutePath));
-                var callbackUrl = string.Format("{0}/Account/ConfirmEmail?userId={1}&code={2}", host, user.Id, code);
-
-                //var callbackUrl = Url.Action("ConfirmEmail", "Account",   new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-                string body = "Hello " + name + ",";
-                body += "<br /><br />Please click the following link to activate your account";
-                body += "<br /><a href = '" + callbackUrl + "'>Click here to activate your account.</a>";
-                body += "<br /><br />Thanks";
-
-                // Send Email out
-                await AppUserManager.SendEmailAsync(user.Id, "Confirm your account", body);
-
-                // Send SMS to phone
-                await this.AppUserManager.SendSmsAsync(user.Id, "Vethentia Phone code is " + phoneCode);
-
+                else
+                {
+                    ModelState.AddModelError("", string.Format("{0} is already registered.", model.phoneNumber));
+                    return BadRequest(ModelState);
+                }
             }
             catch (Exception ex)
             {
